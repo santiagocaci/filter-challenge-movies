@@ -10,7 +10,7 @@ export const HomePage = () => {
 
   if (data)
     return (
-      <div>
+      <div className='container mx-auto'>
         <Hero />
         <Trailers movies={data.results} />
         <Featured />
