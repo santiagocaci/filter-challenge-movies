@@ -1,12 +1,15 @@
-import { ChangeEvent, FC, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 import { Filter } from './Trailers';
 
 type Props = {
   onChange: (filter: Filter) => void;
+  onChangeReset?: (reset: boolean) => void;
+  reset?: boolean;
 };
 
-export const SearchFilter: FC<Props> = ({ onChange }) => {
-  const [movieTitle, setMovieTitle] = useState('');
+export const SearchFilter: FC<Props> = ({ onChange, reset, onChangeReset }) => {
+  const [movieTitle, setMovieTitle] = useState<string>('');
+
   const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
     setMovieTitle(input);
@@ -16,14 +19,20 @@ export const SearchFilter: FC<Props> = ({ onChange }) => {
         : null
     );
   };
-  console.log(movieTitle);
+
+  useEffect(() => {
+    if (!reset) return;
+
+    setMovieTitle('');
+    // onChangeReset && onChangeReset(false);
+  }, [reset]);
 
   return (
     <input
       value={movieTitle}
       onChange={e => onInputChange(e)}
       type='text'
-      placeholder='Search movie...'
+      placeholder='Search movie . . .'
       className='input max-w-xs min-w-[250px] input-secondary input-md'
     />
   );
