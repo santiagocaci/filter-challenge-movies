@@ -1,6 +1,6 @@
-# React+Ts Template
+# Filtro basico de peliculas
 
-Template basico de React con Typescript
+Challenge basico de filtrado de peliculas
 
 ## Tecnologias
 
@@ -11,9 +11,12 @@ Template basico de React con Typescript
 
 ## Instalacion
 
-1. Clone el proyecto
-2. Ejecute `npm install`
-3. Ejecute `npm run dev`
+1. Clonar el proyecto
+2. Obtenger una ApiKey de https://www.themoviedb.org/documentation/api
+3. Copiar la ApiKey en el archivo `.env.example`
+4. Renombrar el archivo `.env.example` a `.env.local`
+5. Ejecutar `npm install`
+6. Ejecutar `npm run dev`
 
 ## Comandos extras
 
