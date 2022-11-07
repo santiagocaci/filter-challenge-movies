@@ -8,18 +8,17 @@ export const HomePage = () => {
     queryFn: () => theMovieDBApi.getDiscoverMovies(),
   });
 
-  if (data)
-    return (
-      <div className='container mx-auto'>
-        <Hero />
-        <Trailers movies={data.results} />
-        <Featured />
-      </div>
-    );
-
   if (isError) {
     console.log(error);
     return <p>Error</p>;
   }
   if (isLoading) return <p>Loading...</p>;
+
+  return (
+    <div className='container mx-auto min-h-[calc(100%-84px)]'>
+      <Hero />
+      <Trailers movies={data.results} />
+      <Featured />
+    </div>
+  );
 };

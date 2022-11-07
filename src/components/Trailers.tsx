@@ -19,7 +19,8 @@ const initalState: Filters = {
 
 export const Trailers: FC<Props> = ({ movies }) => {
   const [filters, setFilters] = useState<Filters>(initalState);
-  const [reset, setReset] = useState<boolean>(false);
+  const [resetButton, setResetButton] = useState<boolean>(false);
+  const [resetFilters, setResetFilters] = useState<boolean>(false);
 
   const matchesMovies = useMemo(() => {
     const filtersToApply = Object.values(filters).filter(Boolean);
@@ -34,16 +35,16 @@ export const Trailers: FC<Props> = ({ movies }) => {
   }, [filters, movies]);
 
   useEffect(() => {
-    if (reset) setReset(false);
-  }, [reset]);
+    setResetFilters(false);
+  }, [resetFilters]);
 
   return (
     <div>
       <h2 className='ml-4 sm:ml-0 text-4xl font-semibold my-3'>Top Movies</h2>
       <div className='flex flex-col sm:flex-row items-center gap-3'>
         <SearchFilter
-          reset={reset}
-          onChangeReset={(reset: boolean) => setReset(reset)}
+          resetState={resetFilters}
+          onChangeResetButton={(reset: boolean) => setResetButton(reset)}
           onChange={(filter: Filter) =>
             setFilters(currentFilters => ({
               ...currentFilters,
@@ -52,8 +53,8 @@ export const Trailers: FC<Props> = ({ movies }) => {
           }
         />
         <RatingFilter
-          reset={reset}
-          onChangeReset={(reset: boolean) => setReset(reset)}
+          resetState={resetFilters}
+          onChangeResetButton={(reset: boolean) => setResetButton(reset)}
           onChange={(filter: Filter) =>
             setFilters(currentFilters => ({
               ...currentFilters,
@@ -62,19 +63,24 @@ export const Trailers: FC<Props> = ({ movies }) => {
           }
         />
         <button
+          disabled={!resetButton}
           className='btn'
           onClick={() => {
-            setReset(true);
+            setResetButton(false);
+            setResetFilters(true);
             setFilters(initalState);
           }}
         >
           Reset filters
         </button>
       </div>
-      <div className='flex justify-center flex-wrap gap-6 bg-base-200 py-4 rounded'>
-        {matchesMovies.map(movie => (
-          <MovieCard key={movie.id} movie={movie} />
-        ))}
+
+      <div className='w-auto flex justify-center bg-base-200 flex-wrap gap-6 py-4 rounded'>
+        {matchesMovies.length > 0 ? (
+          matchesMovies.map(movie => <MovieCard key={movie.id} movie={movie} />)
+        ) : (
+          <p>No se encontraron resultados</p>
+        )}
       </div>
     </div>
   );

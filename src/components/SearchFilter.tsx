@@ -3,11 +3,15 @@ import { Filter } from './Trailers';
 
 type Props = {
   onChange: (filter: Filter) => void;
-  onChangeReset?: (reset: boolean) => void;
-  reset?: boolean;
+  onChangeResetButton?: (reset: boolean) => void;
+  resetState?: boolean;
 };
 
-export const SearchFilter: FC<Props> = ({ onChange, reset, onChangeReset }) => {
+export const SearchFilter: FC<Props> = ({
+  onChange,
+  onChangeResetButton,
+  resetState,
+}) => {
   const [movieTitle, setMovieTitle] = useState<string>('');
 
   const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -18,14 +22,12 @@ export const SearchFilter: FC<Props> = ({ onChange, reset, onChangeReset }) => {
         ? movie => movie.title.toLowerCase().includes(input.toLowerCase())
         : null
     );
+    onChangeResetButton && onChangeResetButton(true);
   };
 
   useEffect(() => {
-    if (!reset) return;
-
-    setMovieTitle('');
-    // onChangeReset && onChangeReset(false);
-  }, [reset]);
+    if (resetState) setMovieTitle('');
+  }, [resetState]);
 
   return (
     <input

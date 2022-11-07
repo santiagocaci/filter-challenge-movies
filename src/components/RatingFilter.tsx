@@ -3,11 +3,15 @@ import { Filter } from './Trailers';
 
 type Props = {
   onChange: (filter: Filter) => void;
-  onChangeReset?: (reset: boolean) => void;
-  reset?: boolean;
+  onChangeResetButton?: (reset: boolean) => void;
+  resetState?: boolean;
 };
 
-export const RatingFilter: FC<Props> = ({ onChange, onChangeReset, reset }) => {
+export const RatingFilter: FC<Props> = ({
+  onChange,
+  onChangeResetButton,
+  resetState,
+}) => {
   const [star, setStar] = useState<number>(0);
 
   const changeRating = (val: number) => {
@@ -16,14 +20,12 @@ export const RatingFilter: FC<Props> = ({ onChange, onChangeReset, reset }) => {
         movie.vote_average >= val * 2 - 2 && movie.vote_average <= val * 2
     );
     setStar(val);
+    onChangeResetButton && onChangeResetButton(true);
   };
 
   useEffect(() => {
-    if (reset) {
-      setStar(0);
-    }
-    // onChangeReset && onChangeReset(false);
-  }, [reset]);
+    if (resetState) setStar(0);
+  }, [resetState]);
 
   return (
     <div className='pb-3 flex items-center gap-2'>
