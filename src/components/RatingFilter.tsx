@@ -1,34 +1,15 @@
-import { FC, useEffect, useState } from 'react';
-import { Filter } from './Trailers';
+import { FC } from 'react';
 
 type Props = {
-  onChange: (filter: Filter) => void;
-  onChangeResetButton?: (reset: boolean) => void;
-  resetState?: boolean;
+  star: 0 | 1 | 2 | 3 | 4 | 5;
+  onChangeStar: (star: 0 | 1 | 2 | 3 | 4 | 5) => void;
 };
 
-export const RatingFilter: FC<Props> = ({
-  onChange,
-  onChangeResetButton,
-  resetState,
-}) => {
-  const [star, setStar] = useState<number>(0);
-
-  const changeRating = (val: number) => {
-    onChange(
-      movie =>
-        movie.vote_average >= val * 2 - 2 && movie.vote_average <= val * 2
-    );
-    setStar(val);
-    onChangeResetButton && onChangeResetButton(true);
-  };
-
-  useEffect(() => {
-    if (resetState) setStar(0);
-  }, [resetState]);
+export const RatingFilter: FC<Props> = ({ onChangeStar, star }) => {
+  const changeRating = (num: 0 | 1 | 2 | 3 | 4 | 5) => onChangeStar(num);
 
   return (
-    <div className='pb-3 flex items-center gap-2'>
+    <div className='md:pb-3 flex items-center gap-2'>
       <h3 className='text-3xl'>Rating:</h3>
       <div className='rating rating-lg space-x-1'>
         <input
